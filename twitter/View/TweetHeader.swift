@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol TweetHeaderDelegate: class {
+    func showActionSheet()
+}
+
 class TweetHeader: UICollectionReusableView {
     
     // MARK: - Properties
@@ -14,6 +18,8 @@ class TweetHeader: UICollectionReusableView {
     var tweet: Tweet? {
         didSet { configure() }
     }
+    
+    weak var delegate: TweetHeaderDelegate?
     
     private lazy var profileImageView: UIImageView = {
         let iv = UIImageView()
@@ -168,7 +174,7 @@ class TweetHeader: UICollectionReusableView {
         
         addSubview(actionStack)
         actionStack.centerX(inView: self)
-        actionStack.anchor(bottom: bottomAnchor, paddingBottom: 12)
+        actionStack.anchor(top: statsView.bottomAnchor, paddingTop: 16)
     }
     
     required init?(coder: NSCoder) {
@@ -182,7 +188,7 @@ class TweetHeader: UICollectionReusableView {
     }
     
     @objc func showActionSheet() {
-        
+        delegate?.showActionSheet()
     }
     
     @objc func handleCommentTapped() {
@@ -216,6 +222,8 @@ class TweetHeader: UICollectionReusableView {
         dateLabel.text = viewModel.headerTimestamp
         retweetsLabel.attributedText = viewModel.retweetsAttributedString
         likesLabel.attributedText = viewModel.likesAttributedString
+        likeButton.setImage(viewModel.likeButtonImage, for: .normal)
+        likeButton.tintColor = viewModel.likeButtonTintColor
     }
     
     func createButton(withImageName imageName: String) -> UIButton {
