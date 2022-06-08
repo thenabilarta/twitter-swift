@@ -42,8 +42,6 @@ class MainTabController: UITabBarController {
             tabBar.standardAppearance = appearance
             tabBar.scrollEdgeAppearance = tabBar.standardAppearance
         }
-        
-//        logUserOut()
         view.backgroundColor = .twitterBlue
         authenticateUserAndConfigureUI()
     }
@@ -73,15 +71,6 @@ class MainTabController: UITabBarController {
             fetchUser()
         }
     }
-    
-    func logUserOut() {
-        do {
-            try Auth.auth().signOut()
-        } catch let error {
-            print("Failed to sign out with error \(error.localizedDescription)")
-        }
-    }
-    
     
     // MARK: - Selectors
     
